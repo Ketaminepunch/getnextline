@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/25 16:15:07 by tino              #+#    #+#             */
-/*   Updated: 2026/04/25 23:27:59 by vsack            ###   ########.fr       */
+/*   Created: 2026/04/25 23:39:57 by vsack             #+#    #+#             */
+/*   Updated: 2026/04/25 23:53:59 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 	char	*ptr;
 
 	read_bytes = 1;
-	while (ft_strchr(stash, '\n') == NULL && read_bytes != 0)
+	while (!ft_strchr(stash, '\n') && read_bytes != 0)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
@@ -34,7 +34,7 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 	return (stash);
 }
 
-static char	*extract(char *stash)
+static char	*extract_line(char *stash)
 {
 	int		i;
 	char	*line;
@@ -44,7 +44,7 @@ static char	*extract(char *stash)
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * i + 2);
+	line = malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -53,9 +53,15 @@ static char	*extract(char *stash)
 		line[i] = stash[i];
 		i++;
 	}
+	if (stash[i] == '\n')
+	{
+		line[i] = stash[i];
+		i++;
+	}
 	line[i] = '\0';
 	return (line);
 }
+
 static char	*update_stash(char *stash)
 {
 	int		i;
@@ -70,4 +76,36 @@ static char	*update_stash(char *stash)
 		free(stash);
 		return (NULL);
 	}
+	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i + 1));
+	if (!newstash)
+	{
+		free(stash);
+		return (NULL);
+	}
+	i++;
+	j = 0;
+	while (stash[i])
+		newstash[j++] = stash[i++];
+	newstash[j] = '\0';
+	free(stash);
+	return (newstash);
+}
+char	*get_next_line(int fd)
+{
+	static char	*stash;
+	char		*line;
+	char		*buffer;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	stash = read_and_stash(fd, stash, buffer);
+	free(buffer);
+	if (!stash)
+		return (NULL);
+	line = extract_line(stash);
+	stash = update_stash(stash);
+	return (line);
 }

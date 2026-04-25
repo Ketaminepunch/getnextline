@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tino <tino@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 16:10:00 by tino              #+#    #+#             */
-/*   Updated: 2026/04/25 16:11:35 by tino             ###   ########.fr       */
+/*   Updated: 2026/04/25 23:46:32 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *s1);
 
 #endif

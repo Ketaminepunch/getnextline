@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 16:07:32 by tino              #+#    #+#             */
-/*   Updated: 2026/04/25 23:14:48 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/25 23:57:49 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,16 @@ char	*ft_strdup(const char *s)
 
 	i = 0;
 	size = ft_strlen(s);
-	ptr = malloc(sizeof(char) * size + 1);
+	ptr = malloc((size * sizeof(const char)) + 1);
+	if (!ptr)
+		return (0);
+	while (s[i])
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -29,41 +38,40 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	if (!s1)
-	{
-		s1 = malloc(1 * sizeof(char));
-		s1[0] = '\0';
-	}
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
 	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
-	i = -1;
-	j = 0;
+	i = 0;
 	if (s1)
-		while (s1[++i])
+	{
+		while (s1[i])
+		{
 			str[i] = s1[i];
+			i++;
+		}
+	}
+	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];
-	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	str[i] = '\0';
 	return (str);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
-	unsigned char	match;
-
-	match = (unsigned char)c;
+	if (!s)
+		return (NULL);
 	while (*s)
 	{
-		if ((unsigned char)*s == match)
+		if (*s == (char)c)
 			return ((char *)s);
 		s++;
 	}
-	if ((unsigned char)*s == match)
+	if ((char)c == '\0')
 		return ((char *)s);
-	return (0);
+	return (NULL);
 }
 
 size_t	ft_strlen(const char *str)
@@ -71,6 +79,8 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
