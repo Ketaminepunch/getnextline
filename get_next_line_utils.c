@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tino <tino@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 16:07:32 by tino              #+#    #+#             */
-/*   Updated: 2026/04/25 16:12:45 by tino             ###   ########.fr       */
+/*   Updated: 2026/04/25 23:14:48 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,30 @@ char	*ft_strdup(const char *s)
 	ptr = malloc(sizeof(char) * size + 1);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	total_len;
 	char	*str;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
-	i = 0;
-	j = 0;
-	total_len = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc((total_len * sizeof(char)) + 1);
+	if (!s1)
+	{
+		s1 = malloc(1 * sizeof(char));
+		s1[0] = '\0';
+	}
+	if (!s1 || !s2)
+		return (NULL);
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
-		return (0);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
+		return (NULL);
+	i = -1;
+	j = 0;
+	if (s1)
+		while (s1[++i])
+			str[i] = s1[i];
 	while (s2[j])
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
+		str[i++] = s2[j++];
+	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	return (str);
 }
 
