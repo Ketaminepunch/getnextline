@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/25 23:39:57 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/25 23:53:59 by vsack            ###   ########.fr       */
+/*   Created: 2026/04/27 18:39:43 by vsack             #+#    #+#             */
+/*   Updated: 2026/04/27 18:39:44 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 	char	*ptr;
 
 	read_bytes = 1;
-	while (!ft_strchr(stash, '\n') && read_bytes != 0)
+	while (read_bytes > 0)
 	{
 		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
@@ -26,10 +26,14 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 			free(stash);
 			return (NULL);
 		}
+		if (read_bytes == 0)
+			break ;
 		buffer[read_bytes] = '\0';
 		ptr = ft_strjoin(stash, buffer);
 		free(stash);
 		stash = ptr;
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
 	return (stash);
 }
@@ -90,18 +94,20 @@ static char	*update_stash(char *stash)
 	free(stash);
 	return (newstash);
 }
+
 char	*get_next_line(int fd)
 {
-	static char	*stash;
-	char		*line;
-	char		*buffer;
+	static char *stash;
+	char *line;
+	char *buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	stash = read_and_stash(fd, stash, buffer);
+	if (!stash || !ft_strchr(stash, '\n'))
+		stash = read_and_stash(fd, stash, buffer);
 	free(buffer);
 	if (!stash)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 16:10:00 by tino              #+#    #+#             */
-/*   Updated: 2026/04/25 23:46:32 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/27 18:37:59 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 400000
 # endif
 
 char	*get_next_line(int fd);
