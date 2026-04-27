@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 16:10:00 by tino              #+#    #+#             */
-/*   Updated: 2026/04/27 18:37:59 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/27 20:27:12 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr(char *s, char c);
 size_t	ft_strlen(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 
 #endif
