@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:39:43 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/28 21:20:28 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/30 14:36:26 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static char	*read_and_stash(int fd, char *stash, char *buffer)
 			break ;
 		buffer[read_bytes] = '\0';
 		ptr = ft_strjoin(stash, buffer);
+		if (!ptr)
+			return (NULL);
 		free(stash);
 		stash = ptr;
 		if (ft_strchr(buffer, '\n'))
