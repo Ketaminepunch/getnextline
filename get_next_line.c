@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:39:43 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/27 18:39:44 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/28 21:20:28 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ static char	*update_stash(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char *stash;
-	char *line;
-	char *buffer;
+	static char	*stash;
+	char		*line;
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);

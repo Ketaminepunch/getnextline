@@ -6,7 +6,7 @@
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:41:36 by vsack             #+#    #+#             */
-/*   Updated: 2026/04/27 18:41:36 by vsack            ###   ########.fr       */
+/*   Updated: 2026/04/28 21:20:20 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t i;
-	size_t slen;
-	char *sub;
+	size_t	i;
+	size_t	slen;
+	char	*sub;
 
 	if (!s)
 		return (NULL);
