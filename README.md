@@ -7,12 +7,11 @@ The project getnextline is a function that efficently reads any file line by lin
 The whole projects includes 3 files one header file one file for utils and one with the main gnl code.<br>
 The utils include modified functions from libft such as:
 
-`ft_strdup`<br>
 `ft_strjoin`<br>
 `ft_strchr`<br>
 `ft_strlen`<br>
-`ft_substr`<br>
 
+It also includes the bonus which just handles multiple open files up to a max of 1024 files.
 **The main gnl code is these 4 functions:**
 
 ### get_next_line<br>

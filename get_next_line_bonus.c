@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vsack <vsack@student.42vienna.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/05 16:24:20 by vsack             #+#    #+#             */
-/*   Updated: 2026/05/05 19:19:21 by vsack            ###   ########.fr       */
+/*   Created: 2026/05/05 18:27:56 by vsack             #+#    #+#             */
+/*   Updated: 2026/05/05 19:13:45 by vsack            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*read_and_stash(int fd, char *stash, char *buffer)
 {
@@ -99,62 +99,81 @@ static char	*update_stash(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[OPEN_MAX];
 	char		*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(stash);
-		stash = NULL;
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	}
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 	{
-		free(stash);
-		stash = NULL;
+		free(stash[fd]);
+		stash[fd] = NULL;
 		return (NULL);
 	}
-	if (!stash || !ft_strchr(stash, '\n'))
-		stash = read_and_stash(fd, stash, buffer);
+	if (!stash[fd] || !ft_strchr(stash[fd], '\n'))
+		stash[fd] = read_and_stash(fd, stash[fd], buffer);
 	free(buffer);
-	if (!stash)
+	if (!stash[fd])
 		return (NULL);
-	line = extract_line(stash);
-	stash = update_stash(stash);
+	line = extract_line(stash[fd]);
+	stash[fd] = update_stash(stash[fd]);
 	return (line);
 }
 /*
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+static void	read_files(int argc, int *fds)
+{
+	int		active;
+	int		i;
+	char	*line;
+
+	active = 1;
+	while (active)
+	{
+		active = 0;
+		i = 1;
+		while (i < argc)
+		{
+			line = get_next_line(fds[i]);
+			if (line)
+			{
+				printf("File %d: %s", i, line);
+				free(line);
+				active = 1;
+			}
+			i++;
+		}
+	}
+}
 
 int	main(int argc, char **argv)
 {
-	int		fd;
-	char	*line;
-	int		lines_read;
+	int	fds[1024];
+	int	i;
 
-	(void)argc;
-	lines_read = 0;
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		printf("Failed to open file.\n");
+	if (argc < 2 || argc > 1023)
 		return (1);
-	}
-	while (1)
+	i = 1;
+	while (i < argc)
 	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		lines_read++;
-		printf("Line %d: %s", lines_read, line);
-		free(line);
+		fds[i] = open(argv[i], O_RDONLY);
+		i++;
 	}
-	printf("\n--- EOF reached or error ---\n");
-	close(fd);
+	read_files(argc, fds);
+	i = 1;
+	while (i < argc)
+	{
+		if (fds[i] >= 0)
+			close(fds[i]);
+		i++;
+	}
 	return (0);
 }
 */
